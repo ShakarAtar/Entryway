@@ -16,6 +16,11 @@ public class Player
 	{
 		if (health < maxHealth)
 		{
+			if (pHealth + health >= maxHealth)
+				pHealth = maxHealth;
+
+		} else
+		{
 			pHealth =+ health;
 
 		}
@@ -32,7 +37,7 @@ public class Player
 			pArmour -= damage;
 		}
 
-		if (pHealth = 0)
+		if (pHealth <= 0)
 		{
 			Main.gameOver = true;
 
@@ -44,7 +49,15 @@ public class Player
 	{
 		if (pArmour < maxArmour)
 		{
-			pArmour =+ armour;
+			if (pArmour + armour >= maxArmour)
+			{
+				pArmour = maxArmour;
+
+			} else
+			{
+				pArmour =+ armour;
+
+			}
 		}
 	}
 
@@ -52,7 +65,11 @@ public class Player
 	{
 		if (pArAmmo < maxArAmmo)
 		{
-		pArAmmo =+ arAmmo;
+			if (pArAmmo + arAmmo >= maxArAmmo)
+			{
+				pArAmmo = maxArAmmo;
+
+			} else { pArAmmo =+ arAmmo; }
 
 		}
 	}
@@ -61,7 +78,15 @@ public class Player
     {
         if (pShottyAmmo < maxShottyAmmo)
         {
-            pShottyAmmo = +shottyAmmo;
+			if (pShottyAmmo + shottyAmmo >= maxShottyAmmo)
+			{
+				pShottyAmmo = maxShottyAmmo;
+			}
+			else 
+			{
+				pShottyAmmo = +shottyAmmo;
+
+			}
 
         }
     }
