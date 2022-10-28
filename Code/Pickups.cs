@@ -8,6 +8,7 @@ public class Pickups
 	}
 
 	public HealthPickup() {
+		Player.A
 	
 	}
 

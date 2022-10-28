@@ -9,6 +9,7 @@ public class Weapons
 
 	public Shotgun() {
 
+
 	}
 
 	public Rifle() {
