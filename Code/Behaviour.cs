@@ -1,9 +1,14 @@
 ﻿using System;
+using UnityEngine;
 
-public class Behaviour
+
+
+public class Behaviour : MonoBehaviour
 {
-	public Behaviour() {
+	public void Update ()
+	{
+		Debug.Log("Banana");
+	} 
 
 
-	}
 }

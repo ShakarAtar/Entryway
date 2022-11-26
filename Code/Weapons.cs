@@ -12,6 +12,12 @@ public class Weapons
 
 	}
 
+	public static void shotgunDam ()
+	{
+		
+
+	}
+
 	public Rifle() {
 
 	} 
