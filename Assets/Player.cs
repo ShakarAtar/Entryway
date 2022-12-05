@@ -1,0 +1,128 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+        int pHealth, pArmour, pShottyAmmo, pArAmmo, maxHealth, maxArmour, maxShottyAmmo, maxArAmmo;
+    // Start is called before the first frame update
+    void Start()
+    {
+        maxHealth = 100;
+        maxArmour = 100;
+        maxShottyAmmo = 40;
+        maxArAmmo = 200;
+        pHealth = 100;
+        pArmour = 0;
+        pShottyAmmo = 0;
+        pArAmmo = 20;
+        Debug.Log("Health: " + pHealth);
+        
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Projectile")
+        {
+            TakeDamage(10);
+            Debug.Log("Lol you got shot");
+            Debug.Log("Health: " + pHealth);
+        }
+
+        if (collision.gameObject.name == "Shield")
+        {
+            AddArmour(15);
+            Debug.Log("Armour: " + pArmour);
+        }
+    }
+
+    public void AddHealth(int health)
+    {
+        if (health < maxHealth)
+        {
+            if (pHealth + health >= maxHealth)
+                pHealth = maxHealth;
+
+        }
+        else
+        {
+            pHealth = +health;
+
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (pArmour == 0)
+        {
+            pHealth -= damage;
+
+        }
+        else
+        {
+            pArmour -= damage;
+        }
+
+        if (pHealth <= 0)
+        {
+            //Main.gameOver = true;
+
+        }
+
+    }
+
+    public void AddArmour(int armour)
+    {
+        if (pArmour < maxArmour)
+        {
+            if (pArmour + armour >= maxArmour)
+            {
+                pArmour = maxArmour;
+
+            }
+            else
+            {
+                pArmour = +armour;
+
+            }
+        }
+    }
+
+    public void AddArAmmo(int arAmmo)
+    {
+        if (pArAmmo < maxArAmmo)
+        {
+            if (pArAmmo + arAmmo >= maxArAmmo)
+            {
+                pArAmmo = maxArAmmo;
+
+            }
+            else { pArAmmo = +arAmmo; }
+
+        }
+    }
+
+    public void AddShottyAmmo(int shottyAmmo)
+    {
+        if (pShottyAmmo < maxShottyAmmo)
+        {
+            if (pShottyAmmo + shottyAmmo >= maxShottyAmmo)
+            {
+                pShottyAmmo = maxShottyAmmo;
+            }
+            else
+            {
+                pShottyAmmo = +shottyAmmo;
+
+            }
+
+        }
+    }
+}
