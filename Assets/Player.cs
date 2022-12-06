@@ -8,15 +8,15 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = 100;
-        maxArmour = 100;
+        maxHealth = 200;
+        maxArmour = 200;
         maxShottyAmmo = 40;
         maxArAmmo = 200;
         pHealth = 100;
         pArmour = 0;
         pShottyAmmo = 0;
         pArAmmo = 20;
-        Debug.Log("Health: " + pHealth);
+        Debug.Log("Health: " + pHealth + " Armour: " + pArmour);
         
 
     }
@@ -36,22 +36,6 @@ public class Player : MonoBehaviour
         }
 
     }
-
-    public void AddHealth(int health)
-    {
-        if (health < maxHealth)
-        {
-            if (pHealth + health >= maxHealth)
-                pHealth = maxHealth;
-
-        }
-        else
-        {
-            pHealth += health;
-
-        }
-    }
-
     public void TakeDamage(int damage)
     {
 
@@ -67,15 +51,7 @@ public class Player : MonoBehaviour
                 pHealth--;
             }
         }
-        /* if (pArmour == 0 || pArmour - damage <= 0)
-        {
-            pHealth -= damage;
-
-        }
-        else
-        {
-            pArmour -= damage;
-        }*/
+        
 
         if (pHealth <= 0)
         {
@@ -84,6 +60,24 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    public void AddHealth(int health)
+    {
+        if (pHealth < maxHealth)
+        {
+            if (pHealth + health >= maxHealth) 
+            { 
+                pHealth = maxHealth;
+            }
+                
+            else
+            {
+                pHealth += health;
+
+            }
+        }
+    }
+
 
     public void AddArmour(int armour)
     {
@@ -111,7 +105,7 @@ public class Player : MonoBehaviour
                 pArAmmo = maxArAmmo;
 
             }
-            else { pArAmmo = +arAmmo; }
+            else { pArAmmo += arAmmo; }
 
         }
     }
@@ -126,7 +120,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                pShottyAmmo = +shottyAmmo;
+                pShottyAmmo += shottyAmmo;
 
             }
 

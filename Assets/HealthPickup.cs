@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
+    int healthVial = 20;
+    public Player shakar;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,16 @@ public class HealthPickup : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Shakar")
+        {
+            shakar = collision.gameObject.GetComponent<Player>();
+            shakar.AddHealth(healthVial);
+            Debug.Log(this.name + " Health: " + shakar.pHealth + " Armour: " + shakar.pArmour);
+            Destroy(this.gameObject);
+        }
     }
 }
