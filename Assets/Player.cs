@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-        int pHealth, pArmour, pShottyAmmo, pArAmmo, maxHealth, maxArmour, maxShottyAmmo, maxArAmmo;
+        public int pHealth, pArmour, pShottyAmmo, pArAmmo, maxHealth, maxArmour, maxShottyAmmo, maxArAmmo;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,15 +32,9 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Projectile")
         {
             TakeDamage(10);
-            Debug.Log("Lol you got shot");
-            Debug.Log("Health: " + pHealth);
+            Debug.Log("Health: " + pHealth + " Armour: " + pArmour);
         }
 
-        if (collision.gameObject.name == "Shield")
-        {
-            AddArmour(15);
-            Debug.Log("Armour: " + pArmour);
-        }
     }
 
     public void AddHealth(int health)
@@ -53,14 +47,27 @@ public class Player : MonoBehaviour
         }
         else
         {
-            pHealth = +health;
+            pHealth += health;
 
         }
     }
 
     public void TakeDamage(int damage)
     {
-        if (pArmour == 0)
+
+        for (int i = 0; i < damage; i++)
+        {
+            if (pArmour > 0)
+            {
+                pArmour--;
+
+            }
+            else
+            {
+                pHealth--;
+            }
+        }
+        /* if (pArmour == 0 || pArmour - damage <= 0)
         {
             pHealth -= damage;
 
@@ -68,7 +75,7 @@ public class Player : MonoBehaviour
         else
         {
             pArmour -= damage;
-        }
+        }*/
 
         if (pHealth <= 0)
         {
@@ -89,7 +96,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                pArmour = +armour;
+                pArmour += armour;
 
             }
         }

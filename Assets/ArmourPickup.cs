@@ -5,11 +5,12 @@ using UnityEngine;
 public class ArmourPickup : MonoBehaviour
 {
     public Player shakar;
+    int armourShard = 15;
     //public GameObject pickup;
     // Start is called before the first frame update
     void Start()
     {
-        
+    
         
     }
 
@@ -19,27 +20,16 @@ public class ArmourPickup : MonoBehaviour
         
     }
 
+
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision works");
         if (collision.gameObject.tag == "Shakar") {
-            Debug.Log("Collision success");
-            shakar.AddArmour(15);
-            Debug.Log("Armour: " + shakar.name);
+            shakar = collision.gameObject.GetComponent<Player>();
+            shakar.AddArmour(armourShard);
+            Debug.Log("Armour: " + shakar.pArmour);
             Destroy(this.gameObject);
         }
-    }
+    } 
 
-    void OnCollisionExit(Collision collision)
-    {
-        Debug.Log("Collision exit works");
-        if (collision.gameObject.tag == "Shakar")
-        {
-            Debug.Log("Collision exit success");
-            shakar.AddArmour(15);
-            Debug.Log("Armour exit: " + shakar.name);
-            Destroy(this.gameObject);
-        }
-
-    }
+   
 }
