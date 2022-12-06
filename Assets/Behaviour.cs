@@ -7,11 +7,17 @@ public class Behaviour : MonoBehaviour
 {
     public float movementSpeed = 5f;
     public float rotationSpeed = 50f;
-    //public ProjectileBehaviour projectile1;
+    public float pThrust = 20f;
     public GameObject projectilePrefab;
+    Rigidbody pRigidbody;
+
+    private void Start()
+    {
+        pRigidbody = GetComponent<Rigidbody>();
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector3 movementVector = Vector3.zero;
         float rotationAngle = 0f;
@@ -46,10 +52,15 @@ public class Behaviour : MonoBehaviour
         {
             movementVector -= transform.right;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.GetComponent<ProjectileBehaviour>().Shoot(this);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+           pRigidbody.AddForce(transform.up * pThrust, ForceMode.Acceleration);
         }
 
 
