@@ -7,10 +7,12 @@ public class Behaviour : MonoBehaviour
 {
     public float movementSpeed = 5f;
     public float rotationSpeed = 50f;
-    public float pThrust = 150f;
+    public float pThrust = 100f;
     public GameObject projectilePrefab;
     Rigidbody pRigidbody;
     bool canJump = false;
+    bool isGrounded;
+    int doubleJump;
 
     private void Start()
     {
@@ -63,8 +65,11 @@ public class Behaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //Debug.Log("Space is pressed");
-            canJump= true;
+            if (isGrounded || doubleJump == 1)
+            {
+                canJump= true;
+
+            }
         }
 
 
@@ -81,14 +86,32 @@ public class Behaviour : MonoBehaviour
     
     }
 
+    private void OnCollisionEnter(Collision feet)
+    {
+        if (feet.gameObject.tag == "Ground")
+        {
+            isGrounded = true; 
+            doubleJump = 0;
+        }
+    }
+
+    private void OnCollisionExit(Collision feet)
+    {
+        if (feet.gameObject.tag == "Ground")
+        {
+            isGrounded= false;
+        }
+    }
+
     private void FixedUpdate()
     {
 
-        if ( canJump)
+        if (canJump && doubleJump < 2)
         {
             //reset the key checker and jump
             canJump = false;
-            GetComponent<Rigidbody>().velocity = Vector2.up * pThrust;
+            doubleJump ++;
+            pRigidbody.AddForce(Vector3.up * pThrust, (ForceMode)ForceMode2D.Impulse);
             //pRigidbody.AddForce(transform.up * pThrust, ForceMode.Acceleration);
         }
     }
