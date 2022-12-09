@@ -7,9 +7,10 @@ public class Behaviour : MonoBehaviour
 {
     public float movementSpeed = 5f;
     public float rotationSpeed = 50f;
-    public float pThrust = 20f;
+    public float pThrust = 150f;
     public GameObject projectilePrefab;
     Rigidbody pRigidbody;
+    bool canJump = false;
 
     private void Start()
     {
@@ -17,7 +18,7 @@ public class Behaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Vector3 movementVector = Vector3.zero;
         float rotationAngle = 0f;
@@ -52,15 +53,18 @@ public class Behaviour : MonoBehaviour
         {
             movementVector -= transform.right;
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            Debug.Log("Mouse0 is pressed");
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.GetComponent<ProjectileBehaviour>().Shoot(this);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-           pRigidbody.AddForce(transform.up * pThrust, ForceMode.Acceleration);
+            //Debug.Log("Space is pressed");
+            canJump= true;
         }
 
 
@@ -75,5 +79,17 @@ public class Behaviour : MonoBehaviour
             transform.Rotate(new Vector3(0,rotationAngle*rotationSpeed* Time.deltaTime,0));
             
     
+    }
+
+    private void FixedUpdate()
+    {
+
+        if ( canJump)
+        {
+            //reset the key checker and jump
+            canJump = false;
+            GetComponent<Rigidbody>().velocity = Vector2.up * pThrust;
+            //pRigidbody.AddForce(transform.up * pThrust, ForceMode.Acceleration);
+        }
     }
 }

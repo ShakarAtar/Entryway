@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArmourPickup : MonoBehaviour
 {
-    public Player shakar;
+    
     int armourShard = 15;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,7 @@ public class ArmourPickup : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        Player shakar;
         if (collision.gameObject.tag == "Shakar") {
             shakar = collision.gameObject.GetComponent<Player>();
             shakar.AddArmour(armourShard);
