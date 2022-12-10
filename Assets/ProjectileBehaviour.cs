@@ -24,7 +24,7 @@ public class ProjectileBehaviour : MonoBehaviour
         
     }
 
-    public void Shoot (Behaviour shooter)
+    public void Shoot (PlayerMovement shooter)
     {
         transform.position = shooter.transform.position + shooter.transform.forward * projectileDisPlayer;
         GetComponent<Rigidbody>().AddForce(shooter.transform.forward*projectileSpeed);

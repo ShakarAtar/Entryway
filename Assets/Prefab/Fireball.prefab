@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 6344744700471215815}
   - component: {fileID: 6344744700471215816}
   m_Layer: 0
-  m_Name: Projectile
-  m_TagString: Projectile
+  m_Name: Fireball
+  m_TagString: Fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

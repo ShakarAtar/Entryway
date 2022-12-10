@@ -10,6 +10,11 @@ TagManager:
   - Enemy
   - ArmourShard
   - Ground
+  - ManaPickup
+  - WayPoint1
+  - WayPoint2
+  - IceBolt
+  - Fireball
   layers:
   - Default
   - TransparentFX

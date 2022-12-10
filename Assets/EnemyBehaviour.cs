@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject currentWayPoint, nextWayPoint;
+    float movementSpeed = 5f;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        float step = movementSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, currentWayPoint.transform.position, step);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Projectile")
+        if (collision.gameObject.tag == "Fireball")
         {
-            Debug.Log("Lol you got shot");
+            Debug.Log("Enemy was hit.");
             Destroy(this.gameObject);  
+        }
+
+        if (collision.gameObject == currentWayPoint)
+        {
+            GameObject swap = currentWayPoint;
+            currentWayPoint = nextWayPoint;            
+            nextWayPoint = swap;
         }
     }
 

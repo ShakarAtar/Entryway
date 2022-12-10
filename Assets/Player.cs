@@ -1,35 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-        public int pHealth, pArmour, pShottyAmmo, pArAmmo, maxHealth, maxArmour, maxShottyAmmo, maxArAmmo;
-    // Start is called before the first frame update
+      public int pHealth, pArmour, pMana, pMaxHealth, pMaxArmour, pMaxMana;
     void Start()
     {
-        maxHealth = 200;
-        maxArmour = 200;
-        maxShottyAmmo = 40;
-        maxArAmmo = 200;
+        //resets the player
+        pMaxHealth = 200;
+        pMaxArmour = 200;
+        pMaxMana = 40;
         pHealth = 100;
         pArmour = 0;
-        pShottyAmmo = 0;
-        pArAmmo = 20;
+        pMana = 10;
         Debug.Log("Health: " + pHealth + " Armour: " + pArmour);
         
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGUI()
     {
-        
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("HP: " + pHealth);
+        GUILayout.Label("Armour: " + pArmour);
+        GUILayout.Label("Mana: " + pMana);
+
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Projectile")
+        if (collision.gameObject.tag == "IceBolt")
         {
             TakeDamage(10);
             Debug.Log("Health: " + pHealth + " Armour: " + pArmour);
@@ -38,24 +41,16 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
+        int armourDamage, healthDamage;
+        armourDamage = Math.Min(damage, pArmour);
+        healthDamage = damage - armourDamage;
 
-        for (int i = 0; i < damage; i++)
-        {
-            if (pArmour > 0)
-            {
-                pArmour--;
-
-            }
-            else
-            {
-                pHealth--;
-            }
-        }
-        
+        pArmour -= armourDamage;
+        pHealth -= healthDamage;
 
         if (pHealth <= 0)
         {
-            //Main.gameOver = true;
+            PlayerDeath();
 
         }
 
@@ -63,67 +58,37 @@ public class Player : MonoBehaviour
 
     public void AddHealth(int health)
     {
-        if (pHealth < maxHealth)
-        {
-            if (pHealth + health >= maxHealth) 
-            { 
-                pHealth = maxHealth;
-            }
+        pHealth = Math.Min(pHealth + health, pMaxHealth);
                 
-            else
-            {
-                pHealth += health;
-
-            }
-        }
     }
 
 
     public void AddArmour(int armour)
     {
-        if (pArmour < maxArmour)
-        {
-            if (pArmour + armour >= maxArmour)
-            {
-                pArmour = maxArmour;
-
-            }
-            else
-            {
-                pArmour += armour;
-
-            }
-        }
+        pArmour = Math.Min(pArmour + armour, pMaxArmour);
     }
 
-    public void AddArAmmo(int arAmmo)
+
+    public void AddMana(int mana)
     {
-        if (pArAmmo < maxArAmmo)
-        {
-            if (pArAmmo + arAmmo >= maxArAmmo)
-            {
-                pArAmmo = maxArAmmo;
 
-            }
-            else { pArAmmo += arAmmo; }
-
-        }
+        pMana = Math.Min(pMana + mana, pMaxMana);
     }
 
-    public void AddShottyAmmo(int shottyAmmo)
+    public void OnCastSpellFireball()
     {
-        if (pShottyAmmo < maxShottyAmmo)
-        {
-            if (pShottyAmmo + shottyAmmo >= maxShottyAmmo)
-            {
-                pShottyAmmo = maxShottyAmmo;
-            }
-            else
-            {
-                pShottyAmmo += shottyAmmo;
+        pMana--;
 
-            }
+    }
 
-        }
+    public bool CanCastSpell()
+    {
+        return pMana > 0;
+    }
+
+    public void PlayerDeath()
+    {
+        //not implemented yet
+        Debug.Log("You died.");
     }
 }

@@ -1,22 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
-public class Behaviour : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed = 5f;
     public float rotationSpeed = 50f;
-    public float pThrust = 100f;
+    float pThrust = 5f;
+    float pDashSpeed = 5f;
     public GameObject projectilePrefab;
     Rigidbody pRigidbody;
-    bool canJump = false;
+    bool jumpInitiated = false;
+    bool dashInitiated = false;
     bool isGrounded;
-    int doubleJump;
+    int jumpSequence;
+    Vector3 dashVector;
 
     private void Start()
     {
         pRigidbody = GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
@@ -56,20 +61,27 @@ public class Behaviour : MonoBehaviour
             movementVector -= transform.right;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && GetComponent<Player>().CanCastSpell())
         {
-            Debug.Log("Mouse0 is pressed");
             GameObject projectile = Instantiate(projectilePrefab);
             projectile.GetComponent<ProjectileBehaviour>().Shoot(this);
+            GetComponent<Player>().OnCastSpellFireball();   
+
+
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isGrounded || doubleJump == 1)
+            if (isGrounded || jumpSequence == 1)
             {
-                canJump= true;
+                jumpInitiated = true;
 
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            dashInitiated = true;
         }
 
 
@@ -78,6 +90,10 @@ public class Behaviour : MonoBehaviour
             
             movementVector = movementVector.normalized;
             transform.position = transform.position + movementVector * movementSpeed * Time.deltaTime;
+            dashVector = movementVector;
+        } else
+        {
+            dashVector = transform.forward;
         }
 
      
@@ -86,12 +102,13 @@ public class Behaviour : MonoBehaviour
     
     }
 
+
     private void OnCollisionEnter(Collision feet)
     {
         if (feet.gameObject.tag == "Ground")
         {
             isGrounded = true; 
-            doubleJump = 0;
+            jumpSequence = 0;
         }
     }
 
@@ -99,20 +116,28 @@ public class Behaviour : MonoBehaviour
     {
         if (feet.gameObject.tag == "Ground")
         {
-            isGrounded= false;
+            isGrounded = false;
         }
     }
 
     private void FixedUpdate()
     {
 
-        if (canJump && doubleJump < 2)
+        if (jumpInitiated && jumpSequence < 2)
         {
-            //reset the key checker and jump
-            canJump = false;
-            doubleJump ++;
+            //jumps
+            jumpInitiated = false;
+            jumpSequence ++;
             pRigidbody.AddForce(Vector3.up * pThrust, (ForceMode)ForceMode2D.Impulse);
-            //pRigidbody.AddForce(transform.up * pThrust, ForceMode.Acceleration);
+            
+        }
+
+        if (dashInitiated)
+        {
+            //dashes
+            dashInitiated = false;
+            pRigidbody.AddForce(dashVector * pDashSpeed, (ForceMode)ForceMode2D.Impulse);
+
         }
     }
 }
