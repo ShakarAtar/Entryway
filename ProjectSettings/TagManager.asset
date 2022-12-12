@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Shakar
+  - Projectile
+  - HealthPickup
+  - Enemy
+  - ArmourShard
+  - Ground
+  - ManaPickup
+  - WayPoint1
+  - WayPoint2
+  - IceBolt
+  - Fireball
   layers:
   - Default
   - TransparentFX
