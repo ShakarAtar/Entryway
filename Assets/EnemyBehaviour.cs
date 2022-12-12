@@ -6,11 +6,26 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public GameObject currentWayPoint, nextWayPoint;
     float movementSpeed = 5f;
+    public GameObject projectilePrefab;
+    float nextShotTime;
+    float shotWaitTime = 2;
+
+    private void Start()
+    {
+        nextShotTime= Time.time + shotWaitTime;
+    }
 
     private void Update()
     {
         float step = movementSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, currentWayPoint.transform.position, step);
+
+        if (Time.time >= nextShotTime) 
+        { 
+            GameObject projectile = Instantiate(projectilePrefab);
+            projectile.GetComponent<ProjectileBehaviour>().ShootPlayer(this);
+            nextShotTime += shotWaitTime;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

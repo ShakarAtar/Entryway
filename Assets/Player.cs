@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
         pMana = 10;
         Debug.Log("Health: " + pHealth + " Armour: " + pArmour);
         
-
     }
 
     private void OnGUI()

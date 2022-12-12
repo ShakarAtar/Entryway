@@ -5,9 +5,10 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
     public float projectileDisPlayer = 1.5f;
-    public float projectileSpeed = 1000f;
+    public float projectileSpeed = 10000f;
     public float projectileDespawn = 2f;
     private float startTime;
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,5 +29,13 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         transform.position = shooter.transform.position + shooter.transform.forward * projectileDisPlayer;
         GetComponent<Rigidbody>().AddForce(shooter.transform.forward*projectileSpeed);
+    }
+
+    public void ShootPlayer(EnemyBehaviour shooter)
+    {
+        transform.position = shooter.transform.position;
+        transform.LookAt(player.transform.position);
+        transform.position = shooter.transform.position + transform.forward * projectileDisPlayer;
+        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
     }
 }

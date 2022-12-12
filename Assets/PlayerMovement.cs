@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed = 5f;
-    public float rotationSpeed = 50f;
+    public float rotationSpeed = 120f;
     float pThrust = 5f;
     float pDashSpeed = 5f;
     public GameObject projectilePrefab;
